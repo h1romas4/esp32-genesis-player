@@ -1,0 +1,12 @@
+{
+    "C_Cpp.intelliSenseEngine": "Tag Parser",
+    "C_Cpp.intelliSenseEngineFallback": "Disabled",
+    "files.associations": {
+        "*.h": "c",
+        "*.hpp": "c"
+    },
+    "files.watcherExclude": {
+        "**/.git/**": true,
+        "build/*/**": true
+    }
+}
