@@ -7,6 +7,7 @@
 #include "esp_partition.h"
 #include "esp_heap_caps.h"
 #include "esp_timer.h"
+#include "ltc6904.h"
 #include "chips.h"
 
 #define SAMPLE_RATE 44100.0
@@ -88,7 +89,12 @@ void init_vgm()
     vgmpos = 0x34; vgmpos = 0x34 + get_vgm_ui32();
 
     if (clock_ym2612 == 0) clock_ym2612 = 7670453;
-    if (clock_sn76489 == 0) clock_ym2612 = 3579545;
+    if (clock_sn76489 == 0) clock_sn76489 = 3579545;
+
+    // init clock
+    ltc6904_init();
+    ltc6904_set_clock(LTC6904_ADDR_0, clock_ym2612 / 1000000);
+    ltc6904_set_clock(LTC6904_ADDR_1, clock_sn76489 / 1000000);
 
     ESP_LOGI(TAG, "clock_sn76489 : %d", clock_sn76489);
     ESP_LOGI(TAG, "clock_ym2612 : %d", clock_ym2612);

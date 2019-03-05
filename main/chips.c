@@ -21,10 +21,6 @@
 
 static const char* TAG = "chips.cpp";
 
-uint8_t *buf;
-uint32_t bufpos = 0;
-uint8_t *i2cbuf;
-
 uint8_t mcp_state_gpa = 0b00000000;
 
 void write_sound_control(uint8_t dat, uint8_t cnt)
@@ -39,6 +35,8 @@ void write_sound_control(uint8_t dat, uint8_t cnt)
 
 void init_chips()
 {
+    ESP_LOGI(TAG, "chips init start.");
+
     // wait for mcp23s17 POR
     vTaskDelay(100 / portTICK_RATE_MS);
 
@@ -63,6 +61,8 @@ void init_chips()
     write_sound_control(YM_IC, GPIO_LOW);
     vTaskDelay(100 / portTICK_RATE_MS);
     write_sound_control(YM_IC, GPIO_HIGH);
+
+    ESP_LOGI(TAG, "chips init end.");
 }
 
 void YM2612_Write(uint8_t addr, uint8_t data)
