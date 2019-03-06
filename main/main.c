@@ -93,8 +93,8 @@ void init_vgm()
 
     // init clock
     ltc6904_init();
-    ltc6904_set_clock(LTC6904_ADDR_0, clock_ym2612 / 1000000);
-    ltc6904_set_clock(LTC6904_ADDR_1, clock_sn76489 / 1000000);
+    ltc6904_set_clock(LTC6904_ADDR_0, clock_ym2612 / 1000);
+    ltc6904_set_clock(LTC6904_ADDR_1, clock_sn76489 / 1000);
 
     ESP_LOGI(TAG, "clock_sn76489 : %d", clock_sn76489);
     ESP_LOGI(TAG, "clock_ym2612 : %d", clock_ym2612);
