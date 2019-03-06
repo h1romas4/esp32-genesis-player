@@ -21,8 +21,8 @@ ltc6904_err_t ltc6904_init()
 		.mode = I2C_MODE_MASTER,
 		.sda_io_num = GPIO_NUM_21,
 		.scl_io_num = GPIO_NUM_22,
-		.sda_pullup_en = GPIO_PULLUP_ENABLE,
-		.scl_pullup_en = GPIO_PULLUP_ENABLE,
+		.sda_pullup_en = GPIO_PULLUP_DISABLE,
+		.scl_pullup_en = GPIO_PULLUP_DISABLE,
 		.master.clk_speed = 100000
 	};
 	ret = i2c_param_config(I2C_NUM_0, &conf);
