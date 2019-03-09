@@ -95,5 +95,7 @@ ltc6904_err_t ltc6904_set_clock(uint8_t addr, float freq_mhz)
 
     ret = ltc6904_write(addr, (uint16_t)((oct<<12) | (dac<<2)));
 
+    ESP_LOGI(TAG, "ltc6904 : %x", (uint16_t)((oct<<12) | (dac<<2)));
+
     return ret;
 }
