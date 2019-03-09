@@ -18,6 +18,7 @@
 #define YM_A0 0b00000001
 
 #define YM_AD_MASK 0b11110000
+#define SN_WR_MASK 0b10111111
 
 #define GPIO_HIGH 0
 #define GPIO_LOW 1
@@ -69,6 +70,10 @@ void init_chips(chips_t *chips)
 
     // SN76489 reset
     write_sound_control(SN_WR, GPIO_HIGH);
+    SN76489_Write(0x9f);
+    SN76489_Write(0xbf);
+    SN76489_Write(0xdf);
+    SN76489_Write(0xff);
 
     // YM2612 reset
     write_sound_control(YM_A0 | YM_A1, GPIO_LOW);
@@ -100,5 +105,24 @@ void YM2612_Write(uint8_t addr, uint8_t data)
 
 void SN76489_Write(uint8_t data)
 {
-
+    uint8_t buf[18];
+    // data set
+    buf[0] = data;
+    // WR(0)
+    buf[1] = mcp_state_gpa & SN_WR_MASK;
+    // wait 12us
+    for(uint8_t i = 0; i < 7; i++) {
+        // data set (dummy)
+        buf[i * 2 + 2] = data;
+        // WR(0) wait
+        buf[i * 2 + 3] = mcp_state_gpa & SN_WR_MASK;
+    }
+    // data set (dummy)
+    buf[16] = data;
+    // WR(1)
+    buf[17] = (mcp_state_gpa & SN_WR_MASK) | SN_WR;
+    // send command
+    mcp23s17_write_register_seq(MCP23S17_DEFAULT_ADDR, MCP23S17_GPIO, GPIOB, buf, 18);
+    // update state
+    mcp_state_gpa = (mcp_state_gpa & SN_WR_MASK) | SN_WR;
 }
