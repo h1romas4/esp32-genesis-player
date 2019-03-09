@@ -1,6 +1,6 @@
 typedef struct {
-    uint32_t clock_ym2612;
-    uint32_t clock_sn76489;
+    float clock_ym2612;
+    float clock_sn76489;
 } chips_t;
 
 void init_chips(chips_t *chips);
