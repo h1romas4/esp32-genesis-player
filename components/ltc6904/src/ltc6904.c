@@ -27,7 +27,7 @@ ltc6904_err_t ltc6904_init()
 	};
 	ret = i2c_param_config(I2C_NUM_0, &conf);
 
-	if( ret != ESP_OK ) {
+	if(ret != ESP_OK) {
 		ESP_LOGE(TAG,"PARAM CONFIG FAILED");
 		return LTC6904_ERR_CONFIG;
 	}
@@ -64,11 +64,36 @@ ltc6904_err_t ltc6904_write(uint8_t addr, uint16_t code)
     return LTC6904_ERR_OK;
 }
 
-ltc6904_err_t ltc6904_set_clock(uint8_t addr, float freq_khz)
+// https://github.com/jakeson21/Arduino-LTC6904-Library/blob/141e5b5b3b3a6c10d6aeac080a59335e6d1741e8/LTC6904.cpp
+ltc6904_err_t ltc6904_set_clock(uint8_t addr, float freq_mhz)
 {
-    uint16_t oct = (int16_t)(3.322 * log10(freq_khz * 1000.0 / 1039.0));
-    uint16_t dac = (int16_t)(2048.0 - 2078.0 * pow(2, 10 + oct) / (freq_khz * 1000.0) + 0.5);
-    ltc6904_write(addr, (uint16_t)((oct<<12) | (dac<<2)));
+    ltc6904_err_t ret;
 
-    return LTC6904_ERR_OK;
+    uint8_t oct;
+    double oct_double;
+    float float_dac;
+    uint16_t dac;
+
+    // Calculate OCT
+    oct_double = log10((double)((freq_mhz * 1000000) / 1039));
+    oct_double *= 3.322;
+
+    // Keep OCT within range
+    if(oct_double > 15) oct = 15;
+    if(oct_double < 0) oct = 0;
+    oct = (uint8_t)oct_double; // Cast as uint8_t , round down
+
+    // Calculate DAC code
+    float_dac = 2048 - (2078 * pow(2, (10 + oct))) / (freq_mhz * 1000000); // Calculate the dac code
+    float_dac = (float_dac > (floor(float_dac) + 0.5)) ? ceil(float_dac) : floor(float_dac); // Round
+
+    // Keep DAC within range
+    if(float_dac > 1023) float_dac = 1023;
+    if(float_dac < 0) float_dac = 0;
+
+    dac = (uint16_t)float_dac;  // Cast as uint16_t
+
+    ret = ltc6904_write(addr, (uint16_t)((oct<<12) | (dac<<2)));
+
+    return ret;
 }

@@ -7,7 +7,6 @@
 #include "esp_partition.h"
 #include "esp_heap_caps.h"
 #include "esp_timer.h"
-#include "ltc6904.h"
 #include "chips.h"
 
 #define SAMPLE_RATE 44100.0
@@ -74,7 +73,7 @@ uint32_t get_vgm_ui32()
     return get_vgm_ui8() + (get_vgm_ui8() << 8) + (get_vgm_ui8() << 16) + (get_vgm_ui8() << 24);
 }
 
-void init_vgm()
+void init_vgm(chips_t *chips)
 {
     uint32_t clock_sn76489;
     uint32_t clock_ym2612;
@@ -91,10 +90,8 @@ void init_vgm()
     if (clock_ym2612 == 0) clock_ym2612 = 7670453;
     if (clock_sn76489 == 0) clock_sn76489 = 3579545;
 
-    // init clock
-    ltc6904_init();
-    ltc6904_set_clock(LTC6904_ADDR_0, clock_ym2612 / 1000);
-    ltc6904_set_clock(LTC6904_ADDR_1, clock_sn76489 / 1000);
+    chips->clock_ym2612 = clock_ym2612;
+    chips->clock_sn76489 = clock_sn76489;
 
     ESP_LOGI(TAG, "clock_sn76489 : %d", clock_sn76489);
     ESP_LOGI(TAG, "clock_ym2612 : %d", clock_ym2612);
@@ -223,11 +220,13 @@ void play_vgm()
 // The setup routine runs once when M5Stack starts up
 void setup()
 {
+    chips_t chips;
+
     // Initialize VGM data
-    init_vgm();
+    init_vgm(&chips);
 
     // Initialize chips
-    init_chips();
+    init_chips(&chips);
 
     ESP_LOGI(TAG, "Start VGM! (0x%x)", vgmpos);
     while (!vgmend) {

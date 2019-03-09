@@ -4,9 +4,12 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/mpu_wrappers.h"
 #include "freertos/task.h"
+#include "chips.h"
 #include "mcp23s17.h"
+#include "ltc6904.h"
 
-#define SN_WR 0b10000000
+#define CL_OE 0b10000000
+#define SN_WR 0b01000000
 #define YM_IC 0b00100000
 #define YM_RD 0b00010000
 #define YM_WR 0b00001000
@@ -33,13 +36,11 @@ void write_sound_control(uint8_t dat, uint8_t cnt)
     mcp23s17_write_register(MCP23S17_DEFAULT_ADDR, MCP23S17_GPIO, GPIOA, mcp_state_gpa);
 }
 
-void init_chips()
+void init_chips(chips_t *chips)
 {
     ESP_LOGI(TAG, "chips init start.");
 
-    // wait for mcp23s17 POR
-    vTaskDelay(100 / portTICK_RATE_MS);
-
+    // mcp23s17 init
     mcp23s17_err_t ret = mcp23s17_init();
     ESP_ERROR_CHECK(ret);
 
@@ -52,8 +53,22 @@ void init_chips()
     mcp23s17_write_register(MCP23S17_DEFAULT_ADDR, MCP23S17_GPIO, GPIOA, 0xff);
     mcp23s17_write_register(MCP23S17_DEFAULT_ADDR, MCP23S17_GPIO, GPIOB, 0xff);
 
+    // clock setting
+    ltc6904_init();
+    // LTC6904 OE disable (important for clock setting)
+    write_sound_control(CL_OE, GPIO_LOW);
+    // wait stable
+    vTaskDelay(5 / portTICK_RATE_MS);
+    // set clock
+    ltc6904_set_clock(LTC6904_ADDR_1, chips->clock_ym2612 / 1000000);
+    // wait stable
+    vTaskDelay(5 / portTICK_RATE_MS);
+    // LTC6904 OE enable
+    write_sound_control(CL_OE, GPIO_HIGH);
+
     // SN76489 reset
     write_sound_control(SN_WR, GPIO_HIGH);
+
     // YM2612 reset
     write_sound_control(YM_A0 | YM_A1, GPIO_LOW);
     write_sound_control(YM_CS | YM_WR | YM_RD | YM_IC, GPIO_HIGH);

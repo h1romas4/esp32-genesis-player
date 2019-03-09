@@ -1,5 +1,5 @@
-#define LTC6904_ADDR_0 0b0010111
-#define LTC6904_ADDR_1 0b0010110
+#define LTC6904_ADDR_0 0b0010110
+#define LTC6904_ADDR_1 0b0010111
 
 typedef enum {
    LTC6904_ERR_OK      = 0x00,
