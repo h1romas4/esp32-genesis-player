@@ -58,11 +58,12 @@ void init_chips(chips_t *chips)
     // LTC6904 OE disable (important for clock setting)
     write_sound_control(CL_OE, GPIO_LOW);
     // wait stable
-    vTaskDelay(5 / portTICK_RATE_MS);
+    vTaskDelay(10 / portTICK_RATE_MS);
     // set clock
     ltc6904_set_clock(LTC6904_ADDR_1, chips->clock_ym2612 / 1000000);
+    ltc6904_set_clock(LTC6904_ADDR_0, chips->clock_sn76489 / 1000000);
     // wait stable
-    vTaskDelay(5 / portTICK_RATE_MS);
+    vTaskDelay(10 / portTICK_RATE_MS);
     // LTC6904 OE enable
     write_sound_control(CL_OE, GPIO_HIGH);
 
