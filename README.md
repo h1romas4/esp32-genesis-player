@@ -1,6 +1,6 @@
 # esp32-genesis-player
 
-## Work in progress..
+Work in progress..
 
 ![progress02](https://github.com/h1romas4/esp32-genesis-player/raw/master/docs/images/progress02.jpg)
 
