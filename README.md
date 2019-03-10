@@ -1,6 +1,16 @@
 # esp32-genesis-player
 
-Work in progress..
+## Work in progress..
+
+![progress02](https://github.com/h1romas4/esp32-genesis-player/raw/master/docs/images/progress02.jpg)
+
+## Upload .vgm file to esp32 flash
+
+```
+mv example.vgz example.vgm.gz
+gzip -d example.vgm.gz
+./flashrom.sh example.vgm
+```
 
 ## Schematic
 
@@ -88,7 +98,3 @@ IC(14) CLK            LTC6904#1( 6) CLK
 IC(15) D4             MCP23S17( 5)  GPB4
 IC(16) Vcc            5V
 ```
-
-## Enjoy
-
-![progress02](https://github.com/h1romas4/esp32-genesis-player/raw/master/docs/images/progress02.jpg)
