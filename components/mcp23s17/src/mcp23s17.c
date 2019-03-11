@@ -6,6 +6,7 @@
 #include "soc/spi_reg.h"
 #include "rom/gpio.h"
 #include "driver/periph_ctrl.h"
+#include "esp_heap_caps.h"
 
 #include "mcp23s17.h"
 
@@ -16,6 +17,8 @@
 #define SPI_NUM      0x3
 
 static const char* TAG = "MCP23S17";
+
+uint8_t *spi_buf;
 
 /**
  * spi_master_init.
@@ -49,7 +52,7 @@ void spi_master_init()
     SET_PERI_REG_BITS(SPI_CTRL2_REG(SPI_NUM), SPI_MISO_DELAY_MODE, 0, SPI_MISO_DELAY_MODE_S);
     CLEAR_PERI_REG_MASK(SPI_SLAVE_REG(SPI_NUM), SPI_SLAVE_MODE);
 
-    // set clock 10MHz (80MHz / 7 + 1)
+    // set clock 10MHz (80MHz / (7 + 1))
     WRITE_PERI_REG(SPI_CLOCK_REG(SPI_NUM), (7 << SPI_CLKCNT_N_S) | (7 << SPI_CLKCNT_L_S));
 
     SET_PERI_REG_MASK(SPI_USER_REG(SPI_NUM), SPI_CS_SETUP | SPI_CS_HOLD | SPI_USR_MOSI);
@@ -70,6 +73,7 @@ mcp23s17_err_t mcp23s17_init()
 {
     ESP_LOGI(TAG, "spi init start.");
     spi_master_init();
+    spi_buf = heap_caps_malloc(64, MALLOC_CAP_8BIT);
     ESP_LOGI(TAG, "spi init sccuess.");
 
     return MCP23S17_ERR_OK;
@@ -105,17 +109,16 @@ mcp23s17_err_t mcp23s17_write_register_seq(uint8_t addr, mcp23s17_reg_t reg, mcp
 
     uint8_t regpos = mcp23s17_register(reg, group);
 
-    uint8_t buf[16] = { 0 };
-    buf[0] = addr;
-    buf[1] = regpos;
+    spi_buf[0] = addr;
+    spi_buf[1] = regpos;
     for(uint8_t i = 0; i < size; i++) {
-        buf[i + 2] = data[i];
+        spi_buf[i + 2] = data[i];
     }
 
     SET_PERI_REG_BITS(SPI_MOSI_DLEN_REG(SPI_NUM), SPI_USR_MOSI_DBITLEN, (size + 2) * 8 - 1, SPI_USR_MOSI_DBITLEN_S);
     uint8_t spipos = 0;
     for(uint8_t i = 0; i < size + 2; i += 4) {
-        WRITE_PERI_REG((SPI_W0_REG(SPI_NUM) + (spipos << 2)), (buf[i + 3] << 24) | (buf[i + 2] << 16) | (buf[i + 1] << 8) | buf[i]);
+        WRITE_PERI_REG((SPI_W0_REG(SPI_NUM) + (spipos << 2)), (spi_buf[i + 3] << 24) | (spi_buf[i + 2] << 16) | (spi_buf[i + 1] << 8) | spi_buf[i]);
         spipos++;
     }
     SET_PERI_REG_MASK(SPI_CMD_REG(SPI_NUM), SPI_USR);
