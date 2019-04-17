@@ -5,18 +5,8 @@
             "includePath": [
                 "${workspaceRoot}/**",
                 "${IDF_PATH}/components/**",
-                "${XTENSA_ESP32_ELF_PATH}/xtensa-esp32-elf/**"
+                "../xtensa-esp32-elf/**"
             ],
-            "browse": {
-                "limitSymbolsToIncludedHeaders": true,
-                "databaseFilename": "",
-                "path": [
-                    "${workspaceRoot}",
-                    "${IDF_PATH}/components",
-                    "${XTENSA_ESP32_ELF_PATH}/xtensa-esp32-elf"
-                ]
-            },
-            "compilerPath": "${XTENSA_ESP32_ELF_PATH}/bin/xtensa-esp32-elf-gcc",
             "cStandard": "c11",
             "cppStandard": "c++17"
         }
