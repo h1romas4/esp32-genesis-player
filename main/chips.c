@@ -2,11 +2,17 @@
 #include "esp_heap_caps.h"
 #include "esp_log.h"
 #include "freertos/FreeRTOS.h"
+#include "freertos/portmacro.h"
 #include "freertos/mpu_wrappers.h"
 #include "freertos/task.h"
 #include "chips.h"
 #include "mcp23s17.h"
 #include "ltc6904.h"
+
+// for vscode c_cpp_extention
+#ifdef __INTELLISENSE__
+#include "build/include/sdkconfig.h"
+#endif
 
 #define CL_OE 0b10000000
 #define SN_WR 0b01000000
@@ -62,7 +68,7 @@ void init_chips(chips_t *chips)
     // ltc6904_init
     ltc6904_init();
     // wait stable
-    vTaskDelay(100 / portTICK_RATE_MS);
+    vTaskDelay(100 / portTICK_PERIOD_MS);
     // set clock
     // clock_ym2612 = 7670453; clock_sn76489 = 3579545;
     ltc6904_set_clock(LTC6904_ADDR_1, chips->clock_ym2612 / 1000000);

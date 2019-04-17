@@ -7,8 +7,12 @@
 #include "rom/gpio.h"
 #include "driver/periph_ctrl.h"
 #include "esp_heap_caps.h"
-
 #include "mcp23s17.h"
+
+// for vscode c_cpp_extention
+#ifdef __INTELLISENSE__
+#include "build/include/sdkconfig.h"
+#endif
 
 #define PIN_NUM_MOSI 23
 #define PIN_NUM_MISO 19

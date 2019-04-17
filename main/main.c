@@ -9,6 +9,11 @@
 #include "esp_timer.h"
 #include "chips.h"
 
+// for vscode c_cpp_extention
+#ifdef __INTELLISENSE__
+#include "build/include/sdkconfig.h"
+#endif
+
 #define SAMPLE_RATE 44100.0
 
 static const char *TAG = "vgmplay";

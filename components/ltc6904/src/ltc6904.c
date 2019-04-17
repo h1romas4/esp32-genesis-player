@@ -1,4 +1,5 @@
 #include <math.h>
+#include "freertos/portmacro.h"
 #include "driver/i2c.h"
 #include "soc/gpio_sig_map.h"
 #include "soc/i2c_struct.h"
@@ -6,6 +7,11 @@
 #include "esp_system.h"
 #include "esp_log.h"
 #include "ltc6904.h"
+
+// for vscode c_cpp_extention
+#ifdef __INTELLISENSE__
+#include "build/include/sdkconfig.h"
+#endif
 
 #define ACK_CHECK_EN  0x1 /*!< I2C master will check ack from slave*/
 #define ACK_CHECK_DIS 0x0 /*!< I2C master will not check ack from slave */
@@ -55,7 +61,7 @@ ltc6904_err_t ltc6904_write(uint8_t addr, uint16_t code)
     i2c_master_write_byte(cmd, high, ACK_CHECK_EN);
     i2c_master_write_byte(cmd, low, ACK_CHECK_EN);
     i2c_master_stop(cmd);
-    esp_err_t ret = i2c_master_cmd_begin(I2C_NUM_0, cmd, 1000 / portTICK_RATE_MS);
+    esp_err_t ret = i2c_master_cmd_begin(I2C_NUM_0, cmd, 1000 / portTICK_PERIOD_MS);
     i2c_cmd_link_delete(cmd);
     if (ret == ESP_FAIL) {
         ESP_LOGE(TAG,"ERROR: unable to write to register");
