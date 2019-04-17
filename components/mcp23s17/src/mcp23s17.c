@@ -1,4 +1,7 @@
 #include <string.h>
+#include "freertos/FreeRTOS.h"
+#include "freertos/FreeRTOSConfig.h"
+#include "freertos/portmacro.h"
 #include "esp_log.h"
 #include "soc/io_mux_reg.h"
 #include "soc/gpio_reg.h"

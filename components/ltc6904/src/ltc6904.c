@@ -1,4 +1,6 @@
 #include <math.h>
+#include "freertos/FreeRTOS.h"
+#include "freertos/FreeRTOSConfig.h"
 #include "freertos/portmacro.h"
 #include "driver/i2c.h"
 #include "soc/gpio_sig_map.h"
