@@ -8,7 +8,7 @@
 #include "freertos/task.h"
 #include "chips.h"
 #include "mcp23s17.h"
-#include "ltc6904.h"
+#include "si5351a.h"
 
 // for vscode c_cpp_extention
 #ifdef __INTELLISENSE__
@@ -64,20 +64,10 @@ void init_chips(chips_t *chips)
     // clock setting
     ESP_LOGI(TAG, "clock_sn76489 : %g", chips->clock_ym2612);
     ESP_LOGI(TAG, "clock_ym2612 : %g", chips->clock_sn76489);
-    // LTC6904 OE disable (important for clock setting)
-    write_sound_control(CL_OE, GPIO_LOW);
-    // ltc6904_init
-    ltc6904_init();
-    // wait stable
-    vTaskDelay(100 / portTICK_PERIOD_MS);
-    // set clock
+
+    // set clock (TODO:)
     // clock_ym2612 = 7670453; clock_sn76489 = 3579545;
-    ltc6904_set_clock(LTC6904_ADDR_1, chips->clock_ym2612 / 1000000);
-    ltc6904_set_clock(LTC6904_ADDR_0, chips->clock_sn76489 / 1000000);
-    // wait stable
-    vTaskDelay(100 / portTICK_RATE_MS);
-    // LTC6904 OE enable
-    write_sound_control(CL_OE, GPIO_HIGH);
+    st5351a_set_clock();
 
     // SN76489 reset
     write_sound_control(SN_WR, GPIO_HIGH);
