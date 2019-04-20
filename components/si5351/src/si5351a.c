@@ -237,13 +237,13 @@ st5351a_err_t st5351a_set_clock(void)
 {
     // init
     si5351a_init();
-    // 630MHz / 82.13334MHz = 7.6704Hz
+    // 630 / 82.13334 = 7.6704MHz
     // si5351a_setup_PLL(SI5351_PLL_A, 25, 1, 5);
     // si5351a_setup_multisynth(0, SI5351_PLL_A, 82, 13334, 100000);
-    // 675MHz / 88MHz = 7.6704Hz
+    // 675 / 88 = 7.6704MHz
     si5351a_setup_PLL(SI5351_PLL_A, 27, 0, 1);
     si5351a_setup_multisynth(0, SI5351_PLL_A, 88, 0, 1);
-    // 630MHz / 176MHz = 3.5795Hz
+    // 630 / 176 = 3.5795MHz
     si5351a_setup_PLL(SI5351_PLL_B, 25, 1, 5);
     si5351a_setup_multisynth(1, SI5351_PLL_B, 175, 1, 1);
     // si5351a_setup_PLL(SI5351_PLL_B, 25, 1, 5);
