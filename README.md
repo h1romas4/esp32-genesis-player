@@ -27,15 +27,13 @@ IC(19) INTA            (NC)
 IC(29) INTB            (NC)
 ```
 
-### LTC6904 #1,#2
+## Si5351A ([AE-Si5351A-B](http://akizukidenshi.com/catalog/g/gK-10679/))
 
 ```
-IC( 1) GND             GND
-IC( 4) ADR             3.3V (0b0010111) LTC6904 #1
-IC( 4) ADR             GND  (0b0010110) LTC6904 #2
-IC( 5) ~CLK            (NC)
-IC( 7) OE              MCP23S17(28) GPA7
-IC( 8) V+              3.3V - 1uF bypass capacitor
+DIP(1) VDD             3.3V
+DIP(4) GND             GND
+DIP(7) CLK2            (NC)
+DIP(8) VDD0            3.3V
 ```
 
 ### ESP32
@@ -45,8 +43,8 @@ GPIO(23) VSPI MOSI     MCP23S17(13) SI
 GPIO(19) VSPI MISO     MCP23S17(14) SO
 GPIO(18) VSPI SCK      MCP23S17(12) SCK
 GPIO( 5) VSPI SS       MCP23S17(11) CS
-GPIO(22) SCL           LTC6904( 3)  SCL - 4.7K external pullup
-GPIO(21) SDA           LTC6904( 2)  SDI - 4.7K external pullup
+GPIO(22) SCL           Si5351A(2)  SCL
+GPIO(21) SDA           Si5351A(3)  SDA
 ```
 
 ### YM2612
@@ -75,7 +73,7 @@ IC(20) MOR            (audio R)
 IC(21) MOL            (audio L)
 IC(22) AVcc           5V - 100uf bypass capacitor
 IC(23) Vcc            5V - 0.1uF bypass capacitor
-IC(24) CLK            LTC6904#2( 6) CLK
+IC(24) CLK            Si5351A(5) CLK0
 ```
 
 ### SN76489
@@ -94,7 +92,7 @@ IC(10) D0             MCP23S17( 1)  GPB0
 IC(11) D1             MCP23S17( 2)  GPB1
 IC(12) D2             MCP23S17( 3)  GPB2
 IC(13) D3             MCP23S17( 4)  GPB3
-IC(14) CLK            LTC6904#1( 6) CLK
+IC(14) CLK            Si5351A(6) CLK1
 IC(15) D4             MCP23S17( 5)  GPB4
 IC(16) Vcc            5V
 ```
