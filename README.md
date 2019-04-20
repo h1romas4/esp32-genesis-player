@@ -30,10 +30,10 @@ IC(29) INTB            (NC)
 ## Si5351A ([AE-Si5351A-B](http://akizukidenshi.com/catalog/g/gK-10679/))
 
 ```
-DIP(1) VDD             3.3V
+DIP(1) VDD0            3.3V
 DIP(4) GND             GND
 DIP(7) CLK2            (NC)
-DIP(8) VDD0            3.3V
+DIP(8) VDD             3.3V
 ```
 
 ### ESP32
