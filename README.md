@@ -4,6 +4,12 @@ Work in progress..
 
 ![progress02](https://github.com/h1romas4/esp32-genesis-player/raw/master/docs/images/progress02.jpg)
 
+## Require
+
+* ESP32-DevKitC
+* [esp32-idf v3.1.3 setup](https://docs.espressif.com/projects/esp-idf/en/v3.1.3/get-started/index.html)
+* GENESIS/MEGADRIVE(YM2612+SN76489) VGM format file
+
 ## Upload .vgm file to esp32 flash
 
 ```
