@@ -8,14 +8,13 @@ Work in progress..
 
 * ESP32-DevKitC
 * [esp32-idf v3.1.3 setup](https://docs.espressif.com/projects/esp-idf/en/v3.1.3/get-started/index.html)
-* GENESIS/MEGADRIVE(YM2612+SN76489) VGM format file
 
 ## Upload .vgm file to esp32 flash
 
 ```
-mv example.vgz example.vgm.gz
-gzip -d example.vgm.gz
-./flashrom.sh example.vgm
+# mv example.vgz example.vgm.gz
+# gzip -d example.vgm.gz
+./flashrom.sh vgm/kanon2612.vgm
 ```
 
 ## Schematic
