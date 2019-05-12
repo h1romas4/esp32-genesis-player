@@ -92,17 +92,21 @@ void init_chips(chips_t *chips)
 
 void YM2612_Write(uint8_t addr, uint8_t data)
 {
-    uint8_t buf[4];
+    uint8_t buf[6];
     // data set
     buf[0] = data;
     // WR(0) CS(0) YM_A1 YM_A0
     buf[1] = (mcp_state_gpa & YM_AD_MASK) | ( 0b0000 | (addr & 0x03));
     // data set (dummy)
     buf[2] = data;
+    // (wait dummyy)
+    buf[3] = (mcp_state_gpa & YM_AD_MASK) | ( 0b0000 | (addr & 0x03));
+    // (wait dummyy)
+    buf[4] = data;
     // WR(0) CS(0) YM_A1 YM_A0
-    buf[3] = (mcp_state_gpa & YM_AD_MASK) | ( 0b1100 | (addr & 0x03));
+    buf[5] = (mcp_state_gpa & YM_AD_MASK) | ( 0b1100 | (addr & 0x03));
     // send command
-    mcp23s17_write_register_seq(MCP23S17_DEFAULT_ADDR, MCP23S17_GPIO, GPIOB, buf, 4);
+    mcp23s17_write_register_seq(MCP23S17_DEFAULT_ADDR, MCP23S17_GPIO, GPIOB, buf, 6);
     // update state
     mcp_state_gpa = (mcp_state_gpa & YM_AD_MASK) | ( 0b1100 | (addr & 0x03));
 }
