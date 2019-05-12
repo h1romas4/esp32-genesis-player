@@ -69,6 +69,9 @@ void init_chips(chips_t *chips)
     // clock_ym2612 = 7670453; clock_sn76489 = 3579545;
     st5351a_set_clock();
 
+    // LED
+    write_sound_control(CL_OE, GPIO_HIGH);
+
     // SN76489 reset
     write_sound_control(SN_WR, GPIO_HIGH);
     SN76489_Write(0x9f);
@@ -106,24 +109,25 @@ void YM2612_Write(uint8_t addr, uint8_t data)
 
 void SN76489_Write(uint8_t data)
 {
-    uint8_t buf[18];
+    uint8_t wait = 8;
+    uint8_t buf[(wait + 1) * 2 + 2];
     // data set
     buf[0] = data;
     // WR(0)
     buf[1] = mcp_state_gpa & SN_WR_MASK;
-    // wait 12us
-    for(uint8_t i = 0; i < 7; i++) {
+    // wait
+    for(uint8_t i = 0; i < wait; i++) {
         // data set (dummy)
         buf[i * 2 + 2] = data;
         // WR(0) wait
         buf[i * 2 + 3] = mcp_state_gpa & SN_WR_MASK;
     }
     // data set (dummy)
-    buf[16] = data;
+    buf[(wait + 1) * 2] = data;
     // WR(1)
-    buf[17] = (mcp_state_gpa & SN_WR_MASK) | SN_WR;
+    buf[(wait + 1) * 2 + 1] = (mcp_state_gpa & SN_WR_MASK) | SN_WR;
     // send command
-    mcp23s17_write_register_seq(MCP23S17_DEFAULT_ADDR, MCP23S17_GPIO, GPIOB, buf, 18);
+    mcp23s17_write_register_seq(MCP23S17_DEFAULT_ADDR, MCP23S17_GPIO, GPIOB, buf, (wait + 1) * 2 + 2);
     // update state
     mcp_state_gpa = (mcp_state_gpa & SN_WR_MASK) | SN_WR;
 }
