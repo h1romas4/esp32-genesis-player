@@ -26,11 +26,15 @@ uint32_t vgmloopoffset;
 uint32_t datpos;
 uint32_t pcmpos;
 uint32_t pcmoffset;
+uint32_t pcmlength = 0;
 
 int64_t startTime;
 int64_t duration;
 uint32_t delay8n[16];
 uint32_t delay7n[16];
+
+int64_t startTimePCM;
+int64_t durationPCM;
 
 void load_vgmdata()
 {
@@ -127,12 +131,28 @@ void pause_ms(uint32_t ms)
     startTime = esp_timer_get_time();
 }
 
+void pause_pcm(uint32_t samples)
+{
+    durationPCM = ((1000.0 / (SAMPLE_RATE / (float)samples)) * 1000);
+    startTimePCM = esp_timer_get_time();
+}
+
 void play_vgm()
 {
     uint8_t command;
     uint8_t reg;
     uint8_t dat;
 
+    // TODO: mucomMD2vgm hack
+    if(pcmlength > 0 && esp_timer_get_time() - startTimePCM > durationPCM) {
+        pause_pcm(5.5125);
+        YM2612_Write(0, 0x2a);
+        YM2612_Write(1, vgm[datpos + pcmpos + pcmoffset]);
+        pcmoffset++;
+        pcmlength--;
+    }
+
+    // wait play
     if (esp_timer_get_time() - startTime <= duration) {
         return;
     }
@@ -211,12 +231,47 @@ void play_vgm()
             YM2612_Write(1, vgm[datpos + pcmpos + pcmoffset]);
             pcmoffset++;
             break;
+        case 0x90:
+            // Setup Stream Control
+            // TODO: mucomMD2vgm hack
+            // 0x90 ss tt pp cc
+            // 0x90 00 02 00 2a
+            get_vgm_ui32();
+            break;
+        case 0x91:
+            // Set Stream Data
+            // TODO: mucomMD2vgm hack
+            // 0x91 ss dd ll bb
+            // 0x91 00 00 01 2a
+            get_vgm_ui32();
+            break;
+        case 0x92:
+            // Set Stream Frequency
+            // TODO: mucomMD2vgm hack
+            // 0x92 ss ff ff ff ff
+            // 0x92 00 40 1f 00 00 (8KHz)
+            get_vgm_ui8();
+            get_vgm_ui32();
+            break;
+        case 0x93:
+            // Start Stream
+            // TODO: mucomMD2vgm hack
+            // 0x93 ss aa aa aa aa mm ll ll ll ll
+            // 0x93 00 aa aa aa aa 01 ll ll ll ll
+            get_vgm_ui8();
+            pcmpos = get_vgm_ui32();
+            get_vgm_ui8();
+            pcmlength = get_vgm_ui32();
+            pcmoffset = 0;
+            // 8KHz
+            pause_pcm(5.5125);
+            break;
         case 0xe0:
             pcmpos = get_vgm_ui32();
             pcmoffset = 0;
             break;
         default:
-            ESP_LOGE(TAG, "unknown cmd at 0x%x: 0x%x", vgmpos, vgm[vgmpos]);
+            ESP_LOGE(TAG, "unknown cmd at 0x%x: 0x%x", vgmpos - 1, command);
             vgmpos++;
             break;
     }
