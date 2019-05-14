@@ -14,7 +14,7 @@ Work in progress..
 ## Build
 
 ```
-git clone --recursive https://github.com/h1romas4/esp32-genesis-player.git
+git clone https://github.com/h1romas4/esp32-genesis-player.git
 cd esp32-genesis-player
 # Serial flasher config
 make menuconfig
