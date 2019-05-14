@@ -24,6 +24,8 @@ Work in progress..
 
 ## Schematic
 
+![fg05-mdp01-rev-a](https://github.com/h1romas4/esp32-genesis-player/raw/master/docs/schematic/fg05-mdp01-rev-a.png)
+
 ### MCP23S17
 
 ```
