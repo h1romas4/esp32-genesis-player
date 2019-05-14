@@ -6,8 +6,7 @@ Work in progress..
 
 ## Demo
 
-[https://youtu.be/mzKiQgvpdTA](https://youtu.be/mzKiQgvpdTA)
-
+[![demo](https://github.com/h1romas4/esp32-genesis-player/raw/master/docs/images/demo01.png)](https://youtu.be/mzKiQgvpdTA)
 
 ## Require
 
