@@ -2,16 +2,25 @@
 
 Work in progress..
 
-![progress03](https://github.com/h1romas4/esp32-genesis-player/raw/master/docs/images/progress03.jpg)
-
 ## Demo
 
 [![demo](https://github.com/h1romas4/esp32-genesis-player/raw/master/docs/images/demo01.png)](https://youtu.be/mzKiQgvpdTA)
 
 ## Require
 
-* ESP32-DevKitC
+* ESP32 (ESP32-DevKitC, M5Stack...)
 * [esp32-idf v3.1.3 setup](https://docs.espressif.com/projects/esp-idf/en/v3.1.3/get-started/index.html)
+
+## Build
+
+```
+git clone --recursive https://github.com/h1romas4/esp32-genesis-player.git
+cd esp32-genesis-player
+# Serial flasher config
+make menuconfig
+# compile & flash
+make flash
+```
 
 ## Upload .vgm file to esp32 flash
 
