@@ -34,6 +34,17 @@ make flash
 
 ![fg05-mdp01-rev-a](https://github.com/h1romas4/esp32-genesis-player/raw/master/docs/schematic/fg05-mdp01-rev-a.png)
 
+### ESP32 (M5Stack MBUS)
+
+```
+ESP32 GPIO(23) VSPI MOSI     MCP23S17(13) SI
+ESP32 GPIO(19) VSPI MISO     MCP23S17(14) SO
+ESP32 GPIO(18) VSPI SCK      MCP23S17(12) SCK
+ESP32 GPIO( 5) VSPI SS       MCP23S17(11) CS
+ESP32 GPIO(22) SCL           Si5351A(2)  SCL
+ESP32 GPIO(21) SDA           Si5351A(3)  SDA
+```
+
 ### MCP23S17
 
 ```
@@ -54,17 +65,6 @@ DIP(1) VDD0            3.3V
 DIP(4) GND             GND
 DIP(7) CLK2            (NC)
 DIP(8) VDD             3.3V
-```
-
-### ESP32
-
-```
-GPIO(23) VSPI MOSI     MCP23S17(13) SI
-GPIO(19) VSPI MISO     MCP23S17(14) SO
-GPIO(18) VSPI SCK      MCP23S17(12) SCK
-GPIO( 5) VSPI SS       MCP23S17(11) CS
-GPIO(22) SCL           Si5351A(2)  SCL
-GPIO(21) SDA           Si5351A(3)  SDA
 ```
 
 ### YM2612
