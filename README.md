@@ -34,7 +34,7 @@ make flash
 
 ![fg05-mdp01-rev-a](https://github.com/h1romas4/esp32-genesis-player/raw/master/docs/schematic/fg05-mdp01-rev-a.png)
 
-### ESP32
+### ESP32 (MBUS)
 
 ```
 ESP32 GPIO(23) VSPI MOSI     MCP23S17(13) SI
