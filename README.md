@@ -13,6 +13,8 @@ Work in progress..
 
 ## Build
 
+![](https://github.com/h1romas4/esp32-genesis-player/workflows/ESP32%20CI/badge.svg)
+
 ```
 git clone https://github.com/h1romas4/esp32-genesis-player.git
 cd esp32-genesis-player
