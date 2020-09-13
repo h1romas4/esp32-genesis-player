@@ -9,15 +9,22 @@ Work in progress..
 ## Require
 
 * ESP32 (ESP32-DevKitC, M5Stack...)
-* [esp32-idf v3.1.3 setup](https://docs.espressif.com/projects/esp-idf/en/v3.1.3/get-started/index.html)
+* [esp32-idf toolchain setup](https://docs.espressif.com/projects/esp-idf/en/stable/get-started/index.html#setup-toolchain)
+
+```
+$ xtensa-esp32-elf-gcc -v
+gcc version 5.2.0 (crosstool-NG crosstool-ng-1.22.0-80-g6c4433a)
+```
 
 ## Build
 
 ![](https://github.com/h1romas4/esp32-genesis-player/workflows/ESP32%20CI/badge.svg)
 
 ```
-git clone https://github.com/h1romas4/esp32-genesis-player.git
+git clone  --recursive https://github.com/h1romas4/esp32-genesis-player.git
 cd esp32-genesis-player
+# This repository includes eps-idf v3.3.3
+export IDF_PATH=$(pwd)/esp-idf
 # Serial flasher config
 make menuconfig
 # compile & flash

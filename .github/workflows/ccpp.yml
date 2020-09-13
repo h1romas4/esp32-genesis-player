@@ -19,5 +19,5 @@ jobs:
       run: |
         export PATH=$(pwd)/xtensa-esp32-elf/bin:${PATH}
         export IDF_PATH=$(pwd)/esp-idf
-        pip -r ${IDF_PATH}/requirements.txt
+        pip install -r ${IDF_PATH}/requirements.txt
         make
