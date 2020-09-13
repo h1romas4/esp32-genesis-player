@@ -5,7 +5,7 @@
             "includePath": [
                 "${workspaceRoot}/**",
                 "${IDF_PATH}/components/**",
-                "../xtensa-esp32-elf/**"
+                "${ESP32_TOOLCHAIN_HOME}/**"
             ],
             "cStandard": "c11",
             "cppStandard": "c++17"
