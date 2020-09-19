@@ -1,5 +1,4 @@
 .vscode/ipch
 build/
-docs/pcb/
 vgm/*
 !vgm/kanon2612.vgm

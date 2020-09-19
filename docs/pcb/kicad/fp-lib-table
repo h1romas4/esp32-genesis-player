@@ -1,0 +1,4 @@
+(fp_lib_table
+  (lib (name kicad)(type KiCad)(uri /home/hiromasa/devel/esp32/esp32-genesis-player/docs/pcb/kicad.pretty)(options "")(descr ""))
+  (lib (name genesis-sound-card)(type KiCad)(uri ${KIPRJMOD}/genesis-sound-card.pretty)(options "")(descr ""))
+)
