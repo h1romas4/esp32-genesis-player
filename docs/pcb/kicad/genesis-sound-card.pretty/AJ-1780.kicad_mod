@@ -1,4 +1,4 @@
-(module AJ-1780 (layer F.Cu) (tedit 5F6633D9)
+(module AJ-1780 (layer F.Cu) (tedit 5F69D4AE)
   (descr https://www.reichelt.de/index.html?ACTION=7&LA=3&OPEN=0&INDEX=0&FILENAME=C160%252FKB3SPRS.pdf)
   (tags "jack stereo TRS")
   (fp_text reference REF** (at 0 -7.62) (layer F.SilkS)
@@ -37,9 +37,9 @@
   (pad 5 thru_hole oval (at 3.42 -2.9) (size 3.5 2) (drill oval 1.8 1) (layers *.Cu *.Mask))
   (pad 2 thru_hole oval (at 5.12 -5.4) (size 3.5 2) (drill oval 1.8 1) (layers *.Cu *.Mask))
   (pad 3 thru_hole oval (at -3.38 0) (size 2 3.5) (drill oval 1 1.8) (layers *.Cu *.Mask))
-  (model ${KISYS3DMOD}/Connector_Audio.3dshapes/StereoJack_3.5mm_Switch_Ledino_KB3SPRS_Horizontal.wrl
-    (at (xyz 0 0 0))
-    (scale (xyz 1 1 1))
-    (rotate (xyz 0 0 0))
+  (model ./vrml2/AJ-1780.x3d
+    (offset (xyz -0.2 0.2 0))
+    (scale (xyz 4 4 4))
+    (rotate (xyz 90 180 90))
   )
 )
