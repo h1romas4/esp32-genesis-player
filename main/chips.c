@@ -103,7 +103,7 @@ void YM2612_Write(uint8_t addr, uint8_t data)
     buf[3] = (mcp_state_gpa & YM_AD_MASK) | ( 0b0000 | (addr & 0x03));
     // (wait dummyy)
     buf[4] = data;
-    // WR(0) CS(0) YM_A1 YM_A0
+    // WR(1) CS(1) YM_A1 YM_A0
     buf[5] = (mcp_state_gpa & YM_AD_MASK) | ( 0b1100 | (addr & 0x03));
     // send command
     mcp23s17_write_register_seq(MCP23S17_DEFAULT_ADDR, MCP23S17_GPIO, GPIOB, buf, 6);
