@@ -1,4 +1,4 @@
-16924197389117701
+16929188795579701
 Battery
 BatteryHolder_Bulgin_BX0036_1xC
 Bulgin Battery Holder, BX0036, Battery Type C (https://www.bulgin.com/products/pub/media/bulgin/data/Battery_holders.pdf)
@@ -75257,6 +75257,13 @@ varistor SIOV
 2
 2
 genesis-sound-card
+AE-USB2.0-TYPE-C
+
+
+0
+11
+7
+genesis-sound-card
 AJ-1780
 https://www.reichelt.de/index.html?ACTION=7&LA=3&OPEN=0&INDEX=0&FILENAME=C160%252FKB3SPRS.pdf
 jack stereo TRS
@@ -75271,9 +75278,23 @@ BNX016-01
 6
 6
 genesis-sound-card
+KMR-1.8SPI
+
+
+0
+16
+16
+genesis-sound-card
+M5Stamp-C3
+
+
+0
+24
+24
+genesis-sound-card
 MBUS
 
 
 0
-0
-0
+30
+30

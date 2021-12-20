@@ -1,3 +1,4 @@
 (sym_lib_table
   (lib (name genesis-sound-card)(type Legacy)(uri ${KIPRJMOD}/genesis-sound-card.lib)(options "")(descr ""))
+  (lib (name genesis-sound-card-rev2-rescue)(type Legacy)(uri ${KIPRJMOD}/genesis-sound-card-rev2-rescue.lib)(options "")(descr ""))
 )
